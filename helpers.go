@@ -3,8 +3,8 @@ package wok
 import (
 	"strings"
 
-	"gopkg.in/andviro/noodle.v2"
-	mw "gopkg.in/andviro/noodle.v2/middleware"
+	"github.com/go-noodle/noodle"
+	mw "github.com/go-noodle/middleware"
 )
 
 // URLJoin joins components of a network path

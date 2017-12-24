@@ -3,7 +3,7 @@ package wok
 import (
 	"context"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/andviro/noodle.v2"
+	"github.com/go-noodle/noodle"
 	"net/http"
 )
 
