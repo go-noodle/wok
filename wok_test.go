@@ -3,16 +3,17 @@ package wok_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-noodle/noodle"
-	mw "github.com/go-noodle/middleware"
-	"github.com/go-noodle/render"
-	"github.com/go-noodle/wok"
-	"gopkg.in/tylerb/is.v1"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	mw "github.com/go-noodle/middleware"
+	"github.com/go-noodle/noodle"
+	"github.com/go-noodle/render"
+	"github.com/go-noodle/wok"
+	"gopkg.in/tylerb/is.v1"
 )
 
 func mwFactory(tag string) noodle.Middleware {
@@ -64,6 +65,15 @@ func TestGroup(t *testing.T) {
 
 	is.Equal(testRequest(wk, "GET", "/g1"), "A>G1>G11>[B]")
 	is.Equal(testRequest(wk, "GET", "/g2"), "A>G2>G21>[C]")
+}
+
+func TestPrefix(t *testing.T) {
+	is := is.New(t)
+	wk := wok.New()
+	g1 := wk.Group("/g1")
+	g2 := g1.Group("/g2")
+	is.Equal(g1.Prefix(), "/g1")
+	is.Equal(g2.Prefix(), "/g1/g2")
 }
 
 func TestRouterVars(t *testing.T) {

@@ -2,9 +2,10 @@ package wok
 
 import (
 	"context"
-	"github.com/julienschmidt/httprouter"
-	"github.com/go-noodle/noodle"
 	"net/http"
+
+	"github.com/go-noodle/noodle"
+	"github.com/julienschmidt/httprouter"
 )
 
 // Wok is a simple wrapper for httprouter with route groups and native support for http.HandlerFunc
@@ -57,6 +58,15 @@ func (wok *Wok) Handle(method, path string, mws ...noodle.Middleware) RouteClosu
 		h = chain.Then(h)
 		wok.Router.Handle(method, path, wok.convert(h))
 	}
+}
+
+// Prefix returns accumulated URL prefix for router
+func (wok *Wok) Prefix() string {
+	var path string
+	for router := wok; router != nil; router = router.parent {
+		path = URLJoin(router.prefix, path)
+	}
+	return path
 }
 
 // Group starts new route group with common prefix.
